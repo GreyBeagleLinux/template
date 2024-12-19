@@ -1,0 +1,6 @@
+/.venv
+/build
+/state
+
+/node_modules
+/docs/site

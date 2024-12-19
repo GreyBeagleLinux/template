@@ -1,0 +1,5 @@
+name: template
+version: ~
+title: Grey Beagle Linux Template
+nav:
+- modules/ROOT/nav.adoc

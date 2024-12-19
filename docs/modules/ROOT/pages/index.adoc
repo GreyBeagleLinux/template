@@ -1,0 +1,4 @@
+= Grey Beagle Linux Template
+
+The template is the primary repository of GreyBeagleLinux.
+It makes it easy to setup a "project" specific development environment.
