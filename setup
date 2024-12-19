@@ -4,7 +4,7 @@ if [ -f ".setup_complete" ]; then
     exit 0
 fi
 
-source env
+source ./env
 
 echo "**********************************"
 echo " Grey Beage Linux Template Setup *"
@@ -15,8 +15,8 @@ echo "This script will setup the workspace according to 'env'"
 read -p "Continue? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
 echo ""
 
-echo "The configured image repositry is ${IMAGE_REPO},"
-echo "and the branch which will be cloned is ${IMAGE_VERSION}."
+echo "The configured image repository is ${IMAGE_REPO}"
+echo "and the cloned branch is ${IMAGE_VERSION}."
 if [ $IMAGE_AS_SUBMODULE -eq 1 ]; then
     echo "The repository will be cloned as git submodule."
 else
@@ -29,3 +29,5 @@ if [ $IMAGE_AS_SUBMODULE -eq 1 ]; then
 else
     git clone --branch ${IMAGE_VERSION} ${IMAGE_REPO} images
 fi
+
+touch .setup_complete
