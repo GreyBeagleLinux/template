@@ -1,5 +1,18 @@
 #!/bin/bash
 
+remove_submodule() {
+    MODULE_PATH=$1
+
+    echo "Remove $MODULE_PATH submodule."
+
+    # Remove images submodule completely
+    git rm -f $MODULE_PATH
+    rm -rf .git/modules/$MODULE_PATH
+    git config --remove-section submodule.$MODULE_PATH
+}
+
+SUBMODULES="images tasks"
+
 source ./env
 
 echo "**********************************"
@@ -15,8 +28,9 @@ echo ""
 # Remove setup marker
 rm -f .setup_complete
 
-# Remove images submodule completely
-git rm -f images
-rm -rf .git/modules/images
-git config --remove-section submodule.images
 
+for SUBMODULE in $SUBMODULES; do
+    if [ -d $SUBMODULE ]; then
+        remove_submodule $SUBMODULE
+    fi
+done

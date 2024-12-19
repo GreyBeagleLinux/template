@@ -1,5 +1,33 @@
 #!/bin/bash
 
+setup_submodule() {
+    REPO="$1"
+    VERSION="$2"
+    AS_SUBMODULE="$3"
+    FOLDER="$4"
+
+    if [ ! -d $FOLDER ]; then
+        echo "The configured $FOLDER repository is ${REPO}"
+        echo "and the cloned branch is ${VERSION}."
+        if [ $AS_SUBMODULE -eq 1 ]; then
+            echo "The repository will be cloned as git submodule."
+        else
+            echo "The repository will be cloned without using git submodule."
+        fi
+        read -p "Continue? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
+
+        if [ $AS_SUBMODULE -eq 1 ]; then
+            git submodule add -b ${VERSION} ${REPO} $FOLDER
+        else
+            git clone --branch ${VERSION} ${REPO} $FOLDER
+        fi
+    else
+        echo "$FOLDER folder already exists."
+    fi
+}
+
+
+
 if [ -f ".setup_complete" ]; then
     exit 0
 fi
@@ -15,19 +43,8 @@ echo "This script will setup the workspace according to 'env'"
 read -p "Continue? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
 echo ""
 
-echo "The configured image repository is ${IMAGE_REPO}"
-echo "and the cloned branch is ${IMAGE_VERSION}."
-if [ $IMAGE_AS_SUBMODULE -eq 1 ]; then
-    echo "The repository will be cloned as git submodule."
-else
-    echo "The repository will be cloned without using git submodule."
-fi
-read -p "Continue? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
+setup_submodule "$IMAGE_REPO" "$IMAGE_VERSION" "$IMAGE_AS_SUBMODULE" images
 
-if [ $IMAGE_AS_SUBMODULE -eq 1 ]; then
-    git submodule add -b ${IMAGE_VERSION} ${IMAGE_REPO} images
-else
-    git clone --branch ${IMAGE_VERSION} ${IMAGE_REPO} images
-fi
+setup_submodule "$TASK_REPO" "$TASK_VERSION" "$TASK_AS_SUBMODULE" tasks
 
 touch .setup_complete
