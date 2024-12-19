@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ -f ".setup_complete" ]; then
+    exit 0
+fi
+
+source env
+
+echo "**********************************"
+echo " Grey Beage Linux Template Setup *"
+echo "**********************************"
+echo ""
+
+echo "This script will revert all changes done by the setup script."
+echo "Do you want to continue?"
+read -p "Continue? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
+echo ""
+
+rm -f .setup_complete
+
+git rm images

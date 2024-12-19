@@ -1,0 +1,3 @@
+IMAGE_REPO="git@github.com:GreyBeagleLinux/images.git"
+IMAGE_VERSION="main"
+IMAGE_AS_SUBMODULE="1"
