@@ -12,5 +12,11 @@ echo "Do you want to continue?"
 read -p "Continue? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
 echo ""
 
+# Remove setup marker
 rm -f .setup_complete
+
+# Remove images submodule completely
 git rm -f images
+rm -rf .git/modules/images
+git config --remove-section submodule.images
+

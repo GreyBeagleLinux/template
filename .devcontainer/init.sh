@@ -13,11 +13,8 @@ if [ $(id -u) -ne 0 ]; then
     sudo chown -R $(id -un):$(id -gn) /build
 fi
 
-# Install the build tools from the local repository.
-source /build/venv/bin/activate && pip install -e .
-
-# Install the development dependencies.
-source /build/venv/bin/activate && pip install -r dev-requirements.txt
+# Install some cli editors for git
+sudo apt install vim nano
 
 # Link the build folder to the workspace, so that the tools
 # can be inspected using the VS Code file browser.
